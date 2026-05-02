@@ -1,8 +1,7 @@
 'use client'
 
 import { useEffect, useState, useRef, ChangeEvent } from 'react'
-import { useParams } from 'next/navigation'
-import Link from 'next/link'
+import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft, Loader2, Plus, Trash2, GripVertical, Image as ImageIcon } from 'lucide-react'
 import api from '@/lib/axios'
 import { StatusBadge } from '@/components/StatusBadge'
@@ -215,7 +214,7 @@ export default function PostDetailPage() {
     return (
       <div className="p-6">
         <Link
-          href="/dashboard/posts"
+          to="/dashboard/posts"
           className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -232,7 +231,7 @@ export default function PostDetailPage() {
     return (
       <div className="p-6">
         <Link
-          href="/dashboard/posts"
+          to="/dashboard/posts"
           className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -253,7 +252,7 @@ export default function PostDetailPage() {
   return (
     <div className="p-6">
       <Link
-        href="/dashboard/posts"
+        to="/dashboard/posts"
         className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="h-4 w-4" />

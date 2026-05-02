@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { Users, FileText, MessageSquare, Heart } from 'lucide-react'
 import {
   LineChart,
@@ -181,7 +181,7 @@ export default function DashboardPage() {
       header: 'Title',
       render: (post: Post) => (
         <Link
-          href={`/dashboard/posts/${post.id}`}
+          to={`/dashboard/posts/${post.id}`}
           className="hover:text-primary hover:underline line-clamp-1"
         >
           {post.title}

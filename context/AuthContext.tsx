@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react'
-import { useRouter } from 'next/navigation'
+import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import api from '@/lib/axios'
 import type { AuthUser, LoginResponse } from '@/types'
@@ -20,7 +20,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null)
   const [token, setToken] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const router = useRouter()
+  const navigate = useNavigate()
 
   // Rehydrate from cookies on mount
   useEffect(() => {
@@ -49,8 +49,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     setToken(newToken)
     setUser(newUser)
-    router.push('/dashboard')
-  }, [router])
+    navigate('/dashboard')
+  }, [navigate])
 
   const logout = useCallback(async () => {
     try {
@@ -62,9 +62,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       Cookies.remove('admin_user')
       setToken(null)
       setUser(null)
-      router.push('/login')
+      navigate('/login')
     }
-  }, [router])
+  }, [navigate])
 
   return (
     <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>

@@ -1,7 +1,6 @@
 'use client'
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 import { AvatarCircle } from './AvatarCircle'
 import {
@@ -30,7 +29,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ collapsed, onToggle }: SidebarProps) {
-  const pathname = usePathname()
+  const { pathname } = useLocation()
   const { user, logout } = useAuth()
 
   const isActive = (href: string) => {
@@ -47,7 +46,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
       {/* Logo + toggle */}
       <div className="flex h-16 items-center border-b border-sidebar-border px-3 justify-between">
         {!collapsed && (
-          <Link href="/dashboard" className="flex items-center gap-2">
+          <Link to="/dashboard" className="flex items-center gap-2">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
               <LayoutDashboard className="h-4 w-4" />
             </div>
@@ -80,7 +79,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
             return (
               <li key={item.href}>
                 <Link
-                  href={item.href}
+                  to={item.href}
                   title={collapsed ? item.label : undefined}
                   className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                     collapsed ? 'justify-center' : ''

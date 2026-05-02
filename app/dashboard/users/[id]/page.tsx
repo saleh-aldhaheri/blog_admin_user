@@ -1,8 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { ArrowLeft, Trash2, FileText, MessageSquare, Calendar } from 'lucide-react'
 import api from '@/lib/axios'
 import { AvatarCircle } from '@/components/AvatarCircle'
@@ -13,7 +12,7 @@ import type { UserWithStats } from '@/types'
 
 export default function UserProfilePage() {
   const params = useParams()
-  const router = useRouter()
+  const navigate = useNavigate()
   const id = params.id as string
 
   const [user, setUser] = useState<UserWithStats | null>(null)
@@ -50,7 +49,7 @@ export default function UserProfilePage() {
     setIsDeleting(true)
     try {
       await api.delete(`/admin/users/${id}`)
-      router.push('/dashboard/users')
+      navigate('/dashboard/users')
     } catch {
       setError('Failed to delete user')
       setShowDeleteDialog(false)
@@ -65,7 +64,7 @@ export default function UserProfilePage() {
     return (
       <div className="p-6">
         <Link
-          href="/dashboard/users"
+          to="/dashboard/users"
           className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -82,7 +81,7 @@ export default function UserProfilePage() {
     return (
       <div className="p-6">
         <Link
-          href="/dashboard/users"
+          to="/dashboard/users"
           className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -100,7 +99,7 @@ export default function UserProfilePage() {
   return (
     <div className="p-6">
       <Link
-        href="/dashboard/users"
+        to="/dashboard/users"
         className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="h-4 w-4" />

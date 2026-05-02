@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { Pencil, Trash2, X, Check, Loader2 } from 'lucide-react'
 import api from '@/lib/axios'
 import { DataTable, Column } from '@/components/DataTable'
@@ -131,7 +131,7 @@ export default function CommentsPage() {
       header: 'Post',
       render: (comment) => comment.post ? (
         <Link 
-          href={`/dashboard/posts/${comment.post.id}`}
+          to={`/dashboard/posts/${comment.post.id}`}
           className="text-primary hover:underline"
         >
           {truncateContent(comment.post.title, 30)}

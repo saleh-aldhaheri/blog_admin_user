@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { Eye, Trash2 } from 'lucide-react'
 import api from '@/lib/axios'
 import { SearchInput } from '@/components/SearchInput'
@@ -98,7 +98,7 @@ export default function UsersPage() {
       render: (user) => (
         <div className="flex items-center gap-2">
           <Link
-            href={`/dashboard/users/${user.id}`}
+            to={`/dashboard/users/${user.id}`}
             className="rounded p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
             title="View"
           >
