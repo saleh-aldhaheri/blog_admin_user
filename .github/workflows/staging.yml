@@ -1,0 +1,42 @@
+name: Staging
+on:
+  workflow_dispatch:
+  
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: create env
+        run: |
+          cat > .env.production << EOF
+          VITE_API_URL=${{ secrets.FRONTEND_STAGING_VITE_API_URL_V1 }}
+          EOF
+      - name: install dependencies
+        run: npm ci
+      - name: build
+        run: npm run build
+      - name: configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.FRONTEND_STAGING_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.FRONTEND_STAGING_AWS_SECRET_AC }}
+          aws-region: ${{ secrets.FRONTEND_STAGING_AWS_REGION }}
+      - name: deploy to S3
+        run: |
+          aws s3 sync dist/ s3://${{ secrets.FRONTEND_STAGING_S3_BUCKET }}/ \
+            --delete \
+            --cache-control "public,max-age=31536000,immutable" \
+            --exclude "index.html"
+          aws s3 cp dist/index.html s3://${{ secrets.FRONTEND_STAGING_S3_BUCKET }}/index.html \
+            --cache-control "no-cache,no-store,must-revalidate"
+            
+      - name: show URL
+        run: |
+            echo "Deployed to: http://${{ secrets.FRONTEND_STAGING_S3_BUCKET }}.s3-website-${{ secrets.FRONTEND_STAGING_AWS_REGION }}.amazonaws.com"
